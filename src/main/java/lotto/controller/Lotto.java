@@ -1,5 +1,6 @@
-package lotto;
+package lotto.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Lotto {
@@ -14,7 +15,10 @@ public class Lotto {
         if (numbers.size() != 6) {
             throw new IllegalArgumentException();
         }
+
+        Collections.sort(numbers);
     }
+
 
     // TODO: 추가 기능 구현
 }
