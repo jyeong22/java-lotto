@@ -3,13 +3,14 @@ package lotto.model;
 import lotto.controller.Lotto;
 import lotto.controller.RandomUtility;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PurchaseLottos {
 
     private int purchaseAmount;
     private int purchaseQuantity;
-    private List<Lotto> purchaseLottoList;
+    private List<Lotto> purchaseLottoList = new ArrayList<>();
     
     public PurchaseLottos(String stringPurchaseAmount){
         setPurchaseAmount(validate(stringPurchaseAmount));
@@ -34,16 +35,16 @@ public class PurchaseLottos {
 
     private String validate(String stringPurchaseAmount) {
         if(isEmpty(stringPurchaseAmount)){
-            throw new IllegalArgumentException("값을 입력해주세요.");
+            throw new IllegalArgumentException("[ERROR] 값을 입력해주세요.");
         }
         else if (isNotNumber(stringPurchaseAmount)){
-            throw new IllegalArgumentException("숫자를 입력해주세요.");
+            throw new IllegalArgumentException("[ERROR] 숫자를 입력해주세요.");
         }
         else if (!isOverZero(stringToInt(stringPurchaseAmount))){
-            throw new IllegalArgumentException("양수가 아닙니다.");
+            throw new IllegalArgumentException("[ERROR] 양수가 아닙니다.");
         }
         else if (!isMultipleOf1000(stringToInt(stringPurchaseAmount))){
-            throw new IllegalArgumentException("1000의 배수가 아닙니다.");
+            throw new IllegalArgumentException("[ERROR] 1000의 배수가 아닙니다.");
         }
         return stringPurchaseAmount;
     }
@@ -72,5 +73,17 @@ public class PurchaseLottos {
 
     private boolean isEmpty(String stringPurchaseAmount) {
         return stringPurchaseAmount.isBlank();
+    }
+
+    public int getPurchaseQuantity() {
+        return purchaseQuantity;
+    }
+
+    public List<Lotto> getPurchaseLottoList() {
+        return purchaseLottoList;
+    }
+
+    public int getPurchaseAmount() {
+        return purchaseAmount;
     }
 }
