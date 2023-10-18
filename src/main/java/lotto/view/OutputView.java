@@ -20,12 +20,6 @@ public class OutputView {
         System.out.printf(PURCHASE_LOTTOS_QUANTITY, purchaseQuantity);
     }
 
-    private static void printPurchaseLottosList(final List<Lotto> purchaseLottoList) {
-        for(Lotto lotto:purchaseLottoList){
-            System.out.println(lotto.getNumbers());
-        }
-    }
-
     public static void printWinningResult(Map<WinningPrice, Integer> winningMap) {
         System.out.println(WINNING_RESULT);
         System.out.println("3개 일치 (5,000원) - "+winningMap.get(WinningPrice.fifthPlace)+"개");
@@ -33,6 +27,12 @@ public class OutputView {
         System.out.println("5개 일치 (1,500,000원) - "+winningMap.get(WinningPrice.thirdPlace)+"개");
         System.out.println("5개 일치, 보너스 볼 일치 (30,000,000원) - "+winningMap.get(WinningPrice.secondPlace)+"개");
         System.out.println("6개 일치 (2,000,000,000원) - "+winningMap.get(WinningPrice.firstPlace)+"개");
+    }
+
+    private static void printPurchaseLottosList(final List<Lotto> purchaseLottoList) {
+        for(Lotto lotto:purchaseLottoList){
+            System.out.println(lotto.getNumbers());
+        }
     }
 
     public static void printRateOfReturn(int purchaseAmount, long reward) {

@@ -1,6 +1,5 @@
 package lotto.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,8 +55,7 @@ public class Lotto {
     }
 
     private boolean isDigit(List<String> strList) {
-        return strList.stream()
-                .allMatch(str -> str.chars().allMatch(Character::isDigit));
+        return strList.stream().allMatch(str -> str.chars().allMatch(Character::isDigit));
     }
 
     private boolean isSixElement(List<Integer> intList) {
@@ -65,8 +63,7 @@ public class Lotto {
     }
 
     private boolean isInRange(List<Integer> intList) {
-        return intList.stream()
-                .allMatch(num -> num>=LOTTO_MINIMUM_NUM && num<=LOTTO_MAXIMUM_NUM);
+        return intList.stream().allMatch(num -> num>=LOTTO_MINIMUM_NUM && num<=LOTTO_MAXIMUM_NUM);
     }
 
     private boolean isDistinct(List<Integer> intList) {

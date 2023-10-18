@@ -12,9 +12,7 @@ public class RandomUtility {
     public List<Integer> getRandomNumber(){
         List<Integer> randomList = generateRandomNumbers();
         // 오름차순 방법 1
-         return randomList.stream()
-                 .sorted()
-                 .collect(Collectors.toList());
+         return randomList.stream().sorted().collect(Collectors.toList());
         // 오름차순 방법 2 - randomList는 수정이 불가하므로 오류 발생
         // Collections.sort(randomList);
     }
