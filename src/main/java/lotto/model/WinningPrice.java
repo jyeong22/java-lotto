@@ -1,4 +1,7 @@
-package lotto;
+package lotto.model;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 public enum WinningPrice {
     firstPlace(2_000_000_000, 6, false),
@@ -27,6 +30,13 @@ public enum WinningPrice {
 
     public boolean getBonusMatch(){
         return bonusMatch;
+    }
+
+    public static Optional<WinningPrice> getWinningPrice(int matchingCount, boolean bonusMatch){
+        return Arrays.stream(WinningPrice.values())
+                .filter(winningPrice -> matchingCount == winningPrice.getMatchingCount())
+                .filter(winningPrice -> bonusMatch == winningPrice.getBonusMatch())
+                .findAny();
     }
 
 }

@@ -44,6 +44,7 @@ class ApplicationTest extends NsTest {
                 List.of(2, 13, 22, 32, 38, 45),
                 List.of(1, 3, 5, 14, 22, 45)
         );
+
     }
 
     @Test

@@ -2,20 +2,40 @@ package lotto.model;
 
 import lotto.controller.Lotto;
 import lotto.controller.RandomUtility;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class PurchaseLottos {
-
     private int purchaseAmount;
     private int purchaseQuantity;
     private List<Lotto> purchaseLottoList = new ArrayList<>();
-    
-    public PurchaseLottos(String stringPurchaseAmount){
+
+    public PurchaseLottos(String stringPurchaseAmount) {
+        // comma 생략
+        stringPurchaseAmount = removeComma(stringPurchaseAmount);
         setPurchaseAmount(validate(stringPurchaseAmount));
         setPurchaseQuantity();
         setPurchaseLottoList();
+    }
+
+    public int getPurchaseAmount() {
+        return purchaseAmount;
+    }
+
+    public int getPurchaseQuantity() {
+        return purchaseQuantity;
+    }
+
+    public List<Lotto> getPurchaseLottoList() {
+        return purchaseLottoList;
+    }
+
+    private void setPurchaseAmount(String stringPurchaseAmount) {
+        purchaseAmount = stringToInt(stringPurchaseAmount);
+    }
+
+    private void setPurchaseQuantity() {
+        purchaseQuantity = purchaseAmount/1000;
     }
 
     private void setPurchaseLottoList(){
@@ -25,19 +45,11 @@ public class PurchaseLottos {
         }
     }
 
-    private void setPurchaseQuantity() {
-        purchaseQuantity = purchaseAmount/1000;
-    }
-
-    private void setPurchaseAmount(String stringPurchaseAmount) {
-        purchaseAmount = stringToInt(stringPurchaseAmount);
-    }
-
     private String validate(String stringPurchaseAmount) {
         if(isEmpty(stringPurchaseAmount)){
             throw new IllegalArgumentException("[ERROR] 값을 입력해주세요.");
         }
-        else if (isNotNumber(stringPurchaseAmount)){
+        else if (!isDigit(stringPurchaseAmount)){
             throw new IllegalArgumentException("[ERROR] 숫자를 입력해주세요.");
         }
         else if (!isOverZero(stringToInt(stringPurchaseAmount))){
@@ -49,41 +61,27 @@ public class PurchaseLottos {
         return stringPurchaseAmount;
     }
 
-    private boolean isMultipleOf1000(Integer intValue) {
-        return intValue%1000 == 0;
+    private boolean isEmpty(String stringPurchaseAmount) {
+        return stringPurchaseAmount == null || stringPurchaseAmount.isBlank();
+    }
+
+    private boolean isDigit(String stringPurchaseAmount) {
+        return stringPurchaseAmount.chars().allMatch(Character::isDigit);
     }
 
     private boolean isOverZero(Integer intValue) {
         return intValue>0;
     }
 
+    private boolean isMultipleOf1000(Integer intValue) {
+        return intValue%1000 == 0;
+    }
+
     private Integer stringToInt(String stringValue) {
         return Integer.parseInt(stringValue);
     }
 
-    private boolean isNotNumber(String stringPurchaseAmount) {
-        try{
-            Integer.parseInt(stringPurchaseAmount);
-            return false;
-        }
-        catch (Exception e){
-            return true;
-        }
-    }
-
-    private boolean isEmpty(String stringPurchaseAmount) {
-        return stringPurchaseAmount.isBlank();
-    }
-
-    public int getPurchaseQuantity() {
-        return purchaseQuantity;
-    }
-
-    public List<Lotto> getPurchaseLottoList() {
-        return purchaseLottoList;
-    }
-
-    public int getPurchaseAmount() {
-        return purchaseAmount;
+    private String removeComma(String stringPurchaseAmount) {
+        return stringPurchaseAmount.replace(",", "");
     }
 }

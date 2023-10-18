@@ -3,23 +3,24 @@ package lotto.controller;
 import lotto.model.BonusNumber;
 import lotto.model.PurchaseLottos;
 import lotto.model.Statistics;
-import lotto.model.WinningLotto;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
 public class GameController {
-
     private static PurchaseLottos purchaseLottos;
-    private static WinningLotto winningLotto;
+    private static Lotto winningLotto;
     private static BonusNumber bonusNumber;
-    private static final InputView inputView = new InputView();
-    private static final OutputView outputView = new OutputView();
 
     public static void proceedGame(){
-        buyLottos();
-        setWinningNumber();
-        setBonusNumber();
-        showWinningStatistics();
+        try{
+            buyLottos();
+            setWinningNumber();
+            setBonusNumber();
+            showWinningStatistics();
+        }
+        catch(IllegalArgumentException exception){
+            System.out.println(exception.getMessage());
+        }
     }
 
     private static void buyLottos() {
@@ -29,44 +30,43 @@ public class GameController {
         division();
     }
 
-    private static void division() {
-        System.out.println();
-    }
-
     private static void setPurchaseLottos() {
         purchaseLottos = new PurchaseLottos(getPurchaseAmount());
     }
 
     private static String getPurchaseAmount() {
-        return inputView.inputPurchaseAmount();
+        return InputView.inputPurchaseAmount();
     }
 
     private static void showPurchaseLottos() {
-        outputView.printPurchaseLottos(purchaseLottos);
+        OutputView.printPurchaseLottos(purchaseLottos);
     }
 
     private static void setWinningNumber() {
-        winningLotto = new WinningLotto(getWinningNumber());
+        winningLotto = new Lotto(getWinningNumber());
         division();
     }
 
     private static String getWinningNumber() {
-        return inputView.inputWinningNumber();
+        return InputView.inputWinningNumber();
     }
 
     private static void setBonusNumber() {
-        bonusNumber = new BonusNumber(getBonusNumber(), winningLotto.getWinningLottoNumber());
+        bonusNumber = new BonusNumber(getBonusNumber(), winningLotto.getNumbers());
         division();
     }
 
     private static String getBonusNumber() {
-        return inputView.inputBonusNumber();
+        return InputView.inputBonusNumber();
     }
 
     private static void showWinningStatistics() {
         Statistics statistics = new Statistics(purchaseLottos, winningLotto, bonusNumber);
-        outputView.printWinningResult(statistics.getWinningMap());
-        outputView.printRateOfReturn(purchaseLottos.getPurchaseAmount(), statistics.getReward());
+        OutputView.printWinningResult(statistics.getWinningMap());
+        OutputView.printRateOfReturn(purchaseLottos.getPurchaseAmount(), statistics.getReward());
     }
 
+    private static void division() {
+        System.out.println();
+    }
 }
