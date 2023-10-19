@@ -4,20 +4,20 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum WinningPrice {
-    firstPlace(2_000_000_000, 6, false),
-    secondPlace(30_000_000, 5, true),
-    thirdPlace(1_500_000, 5, false),
-    fourthPlace(50_000, 4, false),
-    fifthPlace(5_000, 3, false);
+
+    firstPlace(2_000_000_000, 6 ),
+    secondPlace(30_000_000, 5),
+    thirdPlace(1_500_000, 5),
+    fourthPlace(50_000, 4),
+    fifthPlace(5_000, 3);
 
     final private long price;
     final private int matchingCount;
-    final private boolean bonusMatch;
+    static final private int MINIMUM_MATCHING_COUNT = 3;
 
-    private WinningPrice(int price, int matchingCount, boolean bonusMatch){
+    private WinningPrice(int price, int matchingCount){
         this.price = price;
         this.matchingCount = matchingCount;
-        this.bonusMatch = bonusMatch;
     }
 
     public long getPrice() {
@@ -28,15 +28,15 @@ public enum WinningPrice {
         return matchingCount;
     }
 
-    public boolean getBonusMatch(){
-        return bonusMatch;
-    }
 
-    public static Optional<WinningPrice> getWinningPrice(int matchingCount, boolean bonusMatch){
+    public static WinningPrice getWinningPrice(int matchingCount, boolean bonusMatch) {
+        if (matchingCount == WinningPrice.secondPlace.getMatchingCount() && bonusMatch) {
+            return WinningPrice.secondPlace;
+        } else if (matchingCount == WinningPrice.thirdPlace.getMatchingCount() && !bonusMatch) {
+            return WinningPrice.thirdPlace;
+        }
         return Arrays.stream(WinningPrice.values())
                 .filter(winningPrice -> matchingCount == winningPrice.getMatchingCount())
-                .filter(winningPrice -> bonusMatch == winningPrice.getBonusMatch())
-                .findAny();
+                .findAny().orElse(null);
     }
-
 }

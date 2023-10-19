@@ -19,12 +19,11 @@ public class Statistics {
         List<Lotto> purchaseLottoList = purchaseLottos.getPurchaseLottoList();
         for(Lotto purchaseLotto :  purchaseLottoList){
             int matchingCount = compareTwoLotto(purchaseLotto, winningLotto);
-            boolean bonusValue = compareLottoAndBonus(matchingCount, purchaseLotto, bonusNumber);
-            Optional<WinningPrice> winningPriceValue = findWinningPrice(matchingCount, bonusValue);
-            if(winningPriceValue.isPresent()){
-                WinningPrice winningPrice = winningPriceValue.get();
-                winningMap.replace(winningPrice, winningMap.get(winningPrice)+1);
-                reward+=winningPrice.getPrice();
+            boolean bonusValue = compareLottoAndBonus(purchaseLotto, bonusNumber);
+            WinningPrice winningPriceValue = findWinningPrice(matchingCount, bonusValue);
+            if(winningPriceValue!=null){
+                winningMap.replace(winningPriceValue, winningMap.get(winningPriceValue)+1);
+                reward+=winningPriceValue.getPrice();
             }
         }
     }
@@ -45,14 +44,11 @@ public class Statistics {
                 .count();
     }
 
-    private boolean compareLottoAndBonus(int matchingCount, Lotto purchaseLotto, BonusNumber bonusNumber) {
-        if(matchingCount != SPECIAL_CASE_NUMBER){
-            return false;
-        }
+    private boolean compareLottoAndBonus(Lotto purchaseLotto, BonusNumber bonusNumber) {
         return purchaseLotto.getNumbers().contains(bonusNumber.getNumber());
     }
 
-    private Optional<WinningPrice> findWinningPrice(int matchingCount,boolean bonusValue) {
+    private WinningPrice findWinningPrice(int matchingCount,boolean bonusValue) {
         return WinningPrice.getWinningPrice(matchingCount, bonusValue);
     }
 }
